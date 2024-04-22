@@ -1,0 +1,17 @@
+.sidebar-content {
+    padding: 20px;
+    width: 340px;
+    overflow-x: hidden;
+}
+
+.card {
+    height: 200px;
+    border: 1px solid #000000;
+    border-radius: 15px;
+
+    min-height: 100px;
+
+    &:not(:last-child) {
+        margin-bottom: 50px;
+    }
+}

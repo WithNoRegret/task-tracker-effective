@@ -1,0 +1,37 @@
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit($event)" class="task-form">
+    <div class="task-form-inner">
+        <mat-form-field appearance="outline">
+            <mat-label>Заголовок задачи</mat-label>
+            <input matInput placeholder="Заголовок задачи" formControlName="title">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Текст задачи</mat-label>
+            <textarea matInput placeholder="Текст задачи" formControlName="body"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Срок выполнения</mat-label>
+            <input matInput type="date" formControlName="deadline">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Статус</mat-label>
+            <mat-select formControlName="status">
+                <mat-option value="Scheduled">Запланирована</mat-option>
+                <mat-option value="In Progress">В работе</mat-option>
+                <mat-option value="Done">Завершена</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Исполнители</mat-label>
+            <mat-select formControlName="taskAssignees">
+                <mat-option value="John Doe">John Doe</mat-option>
+                <mat-option value="Jane Doe">Jane Doe</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Создать задачу</button>
+    </div>
+</form>
