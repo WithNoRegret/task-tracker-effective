@@ -10,6 +10,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
+import { FormSubmitService } from '../services/form-submit.service';
 
 import { TaskProps } from '../interfaces/task-props';
 import { Person } from '../interfaces/person';
@@ -36,11 +37,11 @@ import { Person } from '../interfaces/person';
 export class NewTaskFormComponent implements OnInit {
 
   protected taskForm: FormGroup;
+
   readonly separatorKeysCodes = [ENTER] as const;
   addOnBlur = true;
 
   public assigners: Person[] = [];
-  public tasks: { [key: string]: TaskProps } = {};
 
   addChip(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -59,7 +60,10 @@ export class NewTaskFormComponent implements OnInit {
     }
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private formSubmitService: FormSubmitService
+  ) {
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
       body: ['', Validators.required],
@@ -70,29 +74,23 @@ export class NewTaskFormComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const storedTasks = localStorage.getItem('task-tracker-effective-tasks');
-    if (storedTasks) {
-      this.tasks = JSON.parse(storedTasks);
-    }
   }
 
+  public isFormValid() {
+    return this.taskForm.valid && this.assigners.length > 0;
+  }
   protected onSubmit(event: Event) {
-    console.log(this.taskForm);
-    if (this.taskForm.invalid || this.assigners.length == 0) {
-      console.log('Invalid form');
-      return;
+    if (this.isFormValid()) {
+      const taskId = uuidv4();
+      const newTask: TaskProps = {
+        id: taskId,
+        title: this.taskForm.value.title,
+        body: this.taskForm.value.body,
+        deadline: this.taskForm.value.deadline,
+        status: this.taskForm.value.status,
+        taskAssignees: this.assigners,
+      };
+      this.formSubmitService.triggerFormSubmitted(newTask);
     }
-
-    const taskId = uuidv4();
-    const newTask: TaskProps = {
-      title: this.taskForm.value.title,
-      body: this.taskForm.value.body,
-      deadline: this.taskForm.value.deadline,
-      status: this.taskForm.value.status,
-      taskAssignees: this.assigners,
-    };
-    this.tasks[taskId] = newTask;
-    localStorage.setItem('task-tracker-effective-tasks', JSON.stringify(this.tasks));
-    window.location.reload();
   }
 }

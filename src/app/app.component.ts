@@ -6,6 +6,9 @@ import { HeaderContentComponent } from './layout/header-content/header-content.c
 import { SidebarContentComponent } from './layout/sidebar-content/sidebar-content.component';
 import { MainContentComponent } from './layout/main-content/main-content.component';
 
+import { TaskService } from './services/task.service';
+import { FormSubmitService } from './services/form-submit.service';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -22,15 +25,14 @@ import { MainContentComponent } from './layout/main-content/main-content.compone
 })
 
 export class AppComponent {
-  openTaskModal(taskId: Number) {
-    console.log('openTaskModal', taskId);
-  }
+  constructor(
+    public taskService: TaskService,
+    private formSubmitService: FormSubmitService
+  ) {}
 
-  editTask() {
-    console.log('editTask');
-  }
-
-  deleteCurrentTask() {
-    console.log('deleteCurrentTask');
+  ngOnInit() {
+    this.formSubmitService.formSubmitted$.subscribe(formData => {
+      this.taskService.updateTasks(formData);
+    });
   }
 }

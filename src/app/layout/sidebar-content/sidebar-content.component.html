@@ -1,12 +1,12 @@
 <mat-list class="sidebar-content">
-    @for (taskId of Object.keys(tasks); track tasks[taskId]) {
+    @for (task of tasks; track task) {
     <mat-list-item class="card">
-        <mat-card>
+            <mat-card>
             <mat-card-header>
-                <mat-card-title>{{ tasks[taskId].title }}</mat-card-title>
+                <mat-card-title>{{ task.title }}</mat-card-title>
             </mat-card-header>
             <mat-divider></mat-divider>
-            <mat-card-content>{{ tasks[taskId].body }}</mat-card-content>
+            <mat-card-content>{{ task.body }}</mat-card-content>
             <mat-card-actions>
                 <button mat-button>
                     Развернуть
@@ -18,7 +18,7 @@
         </mat-card>
     </mat-list-item>
     }
-    @if (Object.keys(tasks).length == 0) {
+    @if (tasks.length == 0) {
     <p>Вы еще не создали ни одной задачи.</p>
     }
 </mat-list>

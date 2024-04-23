@@ -4,6 +4,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 
+import { TaskService } from '../../services/task.service';
+
 import { TaskProps } from '../../interfaces/task-props';
 
 @Component({
@@ -18,14 +20,17 @@ import { TaskProps } from '../../interfaces/task-props';
   templateUrl: './sidebar-content.component.html',
   styleUrl: './sidebar-content.component.scss'
 })
-export class SidebarContentComponent {
-  Object = Object;
-  tasks: { [key: string]: TaskProps } = {};
+export class SidebarContentComponent implements OnInit {
+  tasks: TaskProps[] = [];
 
-  ngOnInit(): void {
-    const storedTasks = localStorage.getItem('task-tracker-effective-tasks');
-    if (storedTasks) {
-      this.tasks = JSON.parse(storedTasks);
-    }
+  ngOnInit() {
+    this.taskService.$tasks.subscribe(tasks => {
+      this.tasks = tasks;
+    });
   }
+
+  constructor(
+    private taskService: TaskService,
+  ) {}
+  
 }

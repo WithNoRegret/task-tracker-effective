@@ -1,6 +1,7 @@
 import { Person } from './person';
 
 export interface TaskProps {
+    id: string;
     title: string;
     body: string;
     deadline: Date;

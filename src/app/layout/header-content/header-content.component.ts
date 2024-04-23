@@ -23,10 +23,6 @@ export class HeaderContentComponent {
       data: {},
       panelClass: 'task-modal',
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Модальное окно закрыто');
-    });
   }
 
   constructor(private dialog: MatDialog) {}
