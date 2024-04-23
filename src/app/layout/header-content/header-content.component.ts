@@ -3,7 +3,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 
-import { NewTaskModalComponent } from '../../new-task-modal/new-task-modal.component';
+import { TaskModalComponent } from '../../task-modal/task-modal.component';
 
 @Component({
   selector: 'app-header-content',
@@ -16,8 +16,8 @@ import { NewTaskModalComponent } from '../../new-task-modal/new-task-modal.compo
   styleUrl: './header-content.component.scss'
 })
 export class HeaderContentComponent {
-  openNewTaskModal() {
-    const dialogRef = this.dialog.open(NewTaskModalComponent, {
+  openTaskModal() {
+    const dialogRef = this.dialog.open(TaskModalComponent, {
       height: '650px',
       width: '600px',
       data: {},
