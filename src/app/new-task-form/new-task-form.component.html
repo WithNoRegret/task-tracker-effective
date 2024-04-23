@@ -10,9 +10,12 @@
             <textarea matInput placeholder="Текст задачи" formControlName="body"></textarea>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline">   
             <mat-label>Срок выполнения</mat-label>
-            <input matInput type="date" formControlName="deadline">
+            <input matInput [matDatepicker]="picker" formControlName="deadline">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -26,10 +29,26 @@
 
         <mat-form-field appearance="outline">
             <mat-label>Исполнители</mat-label>
-            <mat-select formControlName="taskAssignees">
-                <mat-option value="John Doe">John Doe</mat-option>
-                <mat-option value="Jane Doe">Jane Doe</mat-option>
-            </mat-select>
+            <mat-chip-grid #chipGrid aria-label="Исполнители">
+                @for (assigner of assigners; track assigner.name) {
+                    <mat-chip-row
+                      (removed)="removeChip(assigner)"
+                      [editable]="false"
+                    >
+                        {{ assigner.name }}
+                      <button matChipRemove [attr.aria-label]="'remove ' + assigner.name">
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </mat-chip-row>
+                  }
+                <input 
+                    placeholder="Новый исполнитель..." 
+                    [matChipInputFor]="chipGrid"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" 
+                    [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="addChip($event)"
+                />
+            </mat-chip-grid>
         </mat-form-field>
 
         <button mat-raised-button color="primary" type="submit">Создать задачу</button>

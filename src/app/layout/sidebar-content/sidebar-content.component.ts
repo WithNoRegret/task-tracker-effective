@@ -4,7 +4,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 
-import { TaskProps } from '../../task-props';
+import { TaskProps } from '../../interfaces/task-props';
 
 @Component({
   selector: 'app-sidebar-content',
@@ -27,7 +27,5 @@ export class SidebarContentComponent {
     if (storedTasks) {
       this.tasks = JSON.parse(storedTasks);
     }
-
-    console.log(this.tasks);
   }
 }
